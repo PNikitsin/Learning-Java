@@ -28,5 +28,21 @@ public class Runner {
                 System.out.println(tribe);
             }
         }
+
+        int totalNumber = 0;
+        int familiarWithFire = 0;
+
+        for (Tribe tribe : tribeArrayList) {
+            if (tribe != null) {
+                totalNumber += tribe.getNumber();
+                if (tribe.familiarityWithFire()) {
+                    familiarWithFire += 1;
+                }
+            }
+        }
+
+        System.out.println("______________________");
+        System.out.println("Total number: " + totalNumber);
+        System.out.println("Familiar with fire: " + familiarWithFire);
     }
 }
