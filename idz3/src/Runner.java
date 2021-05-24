@@ -1,48 +1,60 @@
+import com.company.Deserializer;
+import com.company.Serializer;
 import com.company.Tribe;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
 
 public class Runner {
 
     public static void main(String[] args) {
-        ArrayList<Tribe> tribeArrayList = new ArrayList<Tribe>();
-        tribeArrayList.add(new Tribe("Dregovichi", 8100, true));
-        tribeArrayList.add(new Tribe("Radimichi", 7200, true));
-        tribeArrayList.add(new Tribe("Vyatichi", 4500, false));
-        tribeArrayList.add(new Tribe("Drevlyans", 3400, true));
-        tribeArrayList.add(new Tribe("Northerners", 8100, true));
-        tribeArrayList.add(new Tribe("Krivichi", 1600, false));
-        tribeArrayList.add(new Tribe("Volynians", 5600, true));
-        tribeArrayList.add(new Tribe("Glade", 8100, false));
-        tribeArrayList.add(new Tribe());
-        tribeArrayList.add(null);
+        final String TEXT_CSV = "C:\\users\\Pavel\\ideaProjects\\university\\preview_idz3\\idz3\\src\\text.scv";
 
-        while (tribeArrayList.contains(null)) {
-            tribeArrayList.remove(null);
-        }
+        try (Scanner scanner = new Scanner(new FileReader(TEXT_CSV))) {
+            int totalNumber = 0;
+            int familiarWithFire = 0;
+            final int MAX = 10;
+            Tribe[] tribes = new Tribe[MAX];
 
-        tribeArrayList.sort(Comparator.comparing(Tribe::getNumber).thenComparing(Tribe::getName));
+            for (int i = 0; i < MAX; i++) {
+                try {
+                    tribes[i] = new Tribe(scanner);
+                }
+                catch (Exception e) {
+                    tribes[i] = new Tribe();
+                }
+            }
 
-        for (int i = 0; i < 3; i++) {
-            for (Tribe tribe : tribeArrayList) {
+            for (Tribe tribe : tribes) {
+                System.out.println(tribe);
+            }
+
+            for (Tribe tribe : tribes) {
+                if (tribe != null) {
+                    totalNumber += tribe.getNumber();
+                    if (tribe.familiarityWithFire()) {
+                        familiarWithFire += 1;
+                    }
+                }
+            }
+
+            System.out.println("______________________");
+            System.out.println("Total number: " + totalNumber);
+            System.out.println("Familiar with fire: " + familiarWithFire);
+
+            final String DAT_FILE = "C:\\users\\Pavel\\ideaProjects\\university\\preview_idz3\\idz3\\src\\text.dat";
+
+            System.out.println("......................");
+
+            Serializer.serialize(tribes, DAT_FILE);
+            tribes = Deserializer.deserialize(DAT_FILE);
+
+            for (Tribe tribe : tribes) {
                 System.out.println(tribe);
             }
         }
-
-        int totalNumber = 0;
-        int familiarWithFire = 0;
-
-        for (Tribe tribe : tribeArrayList) {
-            if (tribe != null) {
-                totalNumber += tribe.getNumber();
-                if (tribe.familiarityWithFire()) {
-                    familiarWithFire += 1;
-                }
-            }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found");
         }
-
-        System.out.println("______________________");
-        System.out.println("Total number: " + totalNumber);
-        System.out.println("Familiar with fire: " + familiarWithFire);
     }
 }
