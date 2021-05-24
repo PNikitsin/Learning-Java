@@ -1,5 +1,6 @@
 import com.company.Tribe;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Runner {
 
@@ -15,5 +16,11 @@ public class Runner {
         tribeArrayList.add(new Tribe("Glade", 8100, false));
         tribeArrayList.add(new Tribe());
         tribeArrayList.add(null);
+
+        while (tribeArrayList.contains(null)) {
+            tribeArrayList.remove(null);
+        }
+
+        tribeArrayList.sort(Comparator.comparing(Tribe::getNumber).thenComparing(Tribe::getName));
     }
 }
