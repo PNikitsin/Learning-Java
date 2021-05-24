@@ -22,5 +22,11 @@ public class Runner {
         }
 
         tribeArrayList.sort(Comparator.comparing(Tribe::getNumber).thenComparing(Tribe::getName));
+
+        for (int i = 0; i < 3; i++) {
+            for (Tribe tribe : tribeArrayList) {
+                System.out.println(tribe);
+            }
+        }
     }
 }
