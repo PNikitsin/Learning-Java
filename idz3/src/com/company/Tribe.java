@@ -1,6 +1,8 @@
 package com.company;
+import java.io.Serializable;
+import java.util.Scanner;
 
-public class Tribe {
+public class Tribe implements Serializable {
     private String name;
     private int number;
     private boolean familiarityWithFire;
@@ -21,6 +23,10 @@ public class Tribe {
         this.name = "";
         this.number = 0;
         this.familiarityWithFire = false;
+    }
+
+    public Tribe(Scanner scanner) {
+        this(scanner.next(), scanner.nextInt(), scanner.nextBoolean());
     }
 
     public String getName() {
